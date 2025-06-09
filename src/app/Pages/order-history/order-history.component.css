@@ -1,0 +1,79 @@
+.container {
+  width: 60%;
+  max-width: 960px;
+  margin: auto;
+}
+
+.order-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-4px);
+}
+
+.timeline-container {
+  position: relative;
+  padding: 2rem 0;
+}
+
+.timeline-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.progress-line-bg {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.progress-line-fill {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.order-items-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.order-items-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.order-items-container::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 10px;
+}
+
+.order-items-container::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.item-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.border-hover {
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.border-hover:hover {
+  border-color: rgba(13, 110, 253, 0.2);
+}

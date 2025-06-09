@@ -1,0 +1,86 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <form class="contact-form" (ngSubmit)="onSubmit(contactForm)" #contactForm="ngForm">
+        <h2 class="text-center mb-4 fw-bold">Contact Us</h2>
+
+        <!-- Name -->
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" name="name" required minlength="3"
+            placeholder="Enter your name" [(ngModel)]="formData.name" #name="ngModel" />
+          <div class="text-danger" *ngIf="contactForm.submitted && name.invalid">
+            Name is required and must be at least 3 characters long.
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="mb-3">
+          <label for="phone" class="form-label">Phone Number</label>
+          <input type="tel" class="form-control" id="phone" name="phone" required pattern="[0-9]{10,15}"
+            placeholder="e.g. 01012345678" [(ngModel)]="formData.phone" #phone="ngModel" />
+          <div class="text-danger" *ngIf="contactForm.submitted && phone.invalid">
+            Phone is required and must be between 10 and 15 digits.
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" required email
+            placeholder="Enter your email address" [(ngModel)]="formData.email" #email="ngModel" />
+          <div class="text-danger" *ngIf="contactForm.submitted && email.invalid">
+            Please enter a valid email address.
+          </div>
+        </div>
+
+        <!-- Subject -->
+        <div class="mb-3">
+          <label for="subject" class="form-label">Subject</label>
+          <input type="text" class="form-control" id="subject" name="subject" required placeholder="Enter the subject"
+            [(ngModel)]="formData.subject" #subject="ngModel" />
+          <div class="text-danger" *ngIf="contactForm.submitted && subject.invalid">
+            Subject is required.
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div class="mb-3">
+          <label for="message" class="form-label">Message</label>
+          <textarea class="form-control" id="message" name="message" rows="3" required placeholder="Enter your message"
+            [(ngModel)]="formData.message" #message="ngModel" style="height: 100%;"></textarea>
+          <div class="text-danger" *ngIf="contactForm.submitted && message.invalid">
+            Message is required.
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="mb-3">
+          <label for="location" class="form-label">Location</label>
+          <input type="text" class="form-control" id="location" name="location" [(ngModel)]="formData.location" readonly
+            placeholder="Drag the marker on the map" />
+          <div class="text-danger" *ngIf="contactForm.submitted && !formData.location">
+            Location is required.
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary btn-lg" [disabled]="contactForm.invalid">Send Message</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-6 d-flex flex-column align-items-center">
+      <div class="card w-100" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); height: 100%;">
+        <div class="card-body">
+          <h5 class="card-title text-primary fw-bold text-center">Select your location</h5>
+          <div id="map" style="height: 640px; min-height: 400px; width: 100%;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<br>
+<br>

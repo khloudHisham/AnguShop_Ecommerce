@@ -1,0 +1,4 @@
+npm i bootstrap
+npm install @fortawesome/fontawesome-free
+npm install leaflet --save
+npm install sweetalert2

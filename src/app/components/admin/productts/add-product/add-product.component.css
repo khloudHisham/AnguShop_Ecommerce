@@ -1,0 +1,41 @@
+.modal {
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    z-index: 1050;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 10px;
+}
+
+.modal-backdrop {
+    z-index: 1040;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.form-control.bg-dark:focus {
+    background-color: #343a40;
+    color: white;
+    border-color: #f8f9f9;
+    box-shadow: 0 0 0 0.25rem rgba(130, 138, 145, 0.25);
+}
+
+.modal-body {
+    background-color: #222e3b;
+    border-radius: 15px !important;
+}
+
+input {
+    color: black !important;
+    background-color: whitesmoke !important;
+}
+
+textarea {
+    color: black !important;
+    background-color: whitesmoke !important;
+}
+
+select {
+    color: black !important;
+    background-color:whitesmoke !important;
+}

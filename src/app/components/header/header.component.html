@@ -1,0 +1,149 @@
+<header class="header navbar-area">
+
+  <!-- Start Topbar -->
+  <div class="topbar ">
+    <div class="container">
+      <div class="row">
+
+        <a routerLink="/home" class="text-decoration-none col-4 title">
+          <div class="d-flex align-items-center">
+            <a routerLink="/home">
+              <img src="/Images/Angu_Shop1.png" alt="AnguShop Logo" width="50" height="50" class="me-2 logo-animate">
+            </a>
+            <span class="brand-name text-white header0">AnguShop</span>
+          </div>
+        </a>
+
+        <div class="col-lg-4 col-md-4 col-8 ms-auto text-end py-2">
+          <div class="top-end">
+            <ul class="user-login list-unstyled d-flex justify-content-center align-items-center gap-2 mb-0">
+              <!-- Display user info when logged in -->
+              <li *ngIf="isLoggedIn">
+                <div class="user mb-1 text-white">
+                  Hello, <span class="username-highlight">{{ userName }}</span>!
+                </div>
+              </li>
+
+              <!-- Show Sign In and Register links when not logged in -->
+              <div class="mb-2">
+                <li *ngIf="!isLoggedIn">
+                  <a routerLink="/login" href="login.html" class="auth-link text-white">Login</a>
+                </li>
+
+                <li *ngIf="!isLoggedIn">
+                  <a routerLink="/register" href="register.html" class="auth-link text-white">Register</a>
+                </li>
+              </div>
+
+
+              <div class="navbar-cart ">
+                <div class="wishlist" *ngIf="isLoggedIn">
+                  <a routerLink="/wishList" href="javascript:void(0)" class="myico1 cart-icon">
+                    <i class="fa-solid fa-heart txtico1" style="color: red;"></i>
+                    <span class="total-items pulse">{{ wishlistCount }}</span>
+                  </a>
+                </div>
+
+                <div class="cart-items" *ngIf="isLoggedIn">
+                  <a routerLink="/cart" href="javascript:void(0)" class="main-btn myico2 cart-icon">
+                    <i class="fa-solid fa-cart-shopping txtico2" style="color: green;"></i>
+                    <span class="total-items pulse">{{cartCount}}</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Profile icon (only visible when logged in) -->
+              <li *ngIf="isLoggedIn">
+                <a routerLink="/profile" class="nav-link p-2 text-white profile-link">
+                  <div class="profile-image-container" style="background-color: white;">
+                    <!-- Display user image if available, otherwise show user icon -->
+                    <img [src]="userImage" alt="User Profile" class="profile-image">
+                  </div>
+                </a>
+              </li>
+
+              <div *ngIf="isLoggedIn">
+                <button (click)="logout()" class="btn btn-sm ms-2 logout-btn text-white">Logout</button>
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start Header Bottom -->
+  <div class="container container2 py-2">
+    <div class="d-flex align-items-center justify-content-between flex-wrap">
+
+      <!-- Navigation Menu -->
+      <nav class="navbar navbar-expand-lg me-4">
+        <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="toggler-icon"></span>
+          <span class="toggler-icon"></span>
+          <span class="toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+          <ul class="nav nav-pills d-flex gap-3 flex-wrap align-items-center mb-0">
+
+            <li class="nav-item">
+              <a class="nav-link nav-button" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+                routerLink="/home">
+                <i class="fas fa-home me-2"></i>Home
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link nav-button" routerLinkActive="active-link" routerLink="/Categories">
+                <i class="fa-solid fa-list me-2"></i>Categories
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link nav-button" routerLinkActive="active-link" routerLink="/products">
+                <i class="fas fa-box-open me-2"></i>Products
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link nav-button" routerLinkActive="active-link" routerLink="/compare">
+                <i class="fa-solid fa-arrow-right-arrow-left me-2"></i>Compare
+              </a>
+            </li>
+
+            <li class="nav-item" *ngIf="isLoggedIn">
+              <a class="nav-link nav-button" routerLinkActive="active-link" routerLink="/OrderHistory">
+                <i class="bi bi-calendar-week-fill me-2"></i>Order History
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link nav-button" routerLinkActive="active-link" routerLink="/contactus">
+                <i class="fas fa-envelope me-2"></i>Contact Us
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-button" routerLinkActive="active-link" routerLink="/about">
+                <i class="fas fa-users me-2"></i>About Us
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Social Icons -->
+      <div class="nav-social d-flex align-items-center">
+        <h5 class="title mb-0 me-3">Follow Us:</h5>
+        <ul class="d-flex mb-0 list-unstyled gap-2">
+          <li><a href="#" class="social-icon"><i class="fa-brands fa-facebook"></i></a></li>
+          <li><a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a></li>
+          <li><a href="#" class="social-icon"><i class="fa-brands fa-square-instagram"></i></a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</header>

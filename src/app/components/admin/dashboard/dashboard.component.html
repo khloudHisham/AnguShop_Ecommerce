@@ -1,0 +1,183 @@
+<!-- <p class="text-white" *ngIf="auth.isAdmin()">Dashboard works!</p> -->
+
+<div *ngIf="loading" class="loading-container text-center text-white my-5">
+    <div class="spinner-border text-info" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading dashboard data...</p>
+</div>
+
+<div *ngIf="!loading" class="px-3">
+
+    <div class="px-3">
+        <div class="dashboard-header">
+            <h2 class="text-white">Dashboard Overview</h2>
+            <p>Welcome back! Here's what's happening with your store today.</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <!-- Total Sales -->
+            <div class="stat-card" style="border-left-color: #17a2b8;">
+                <div class="stat-value">${{ totalSales.toFixed(2) }}</div>
+                <div class="stat-label">Total Sales</div>
+                <div class="trend-indicator" style="color: rgb(166, 166, 166);">
+                    Across all users
+                </div>
+            </div>
+
+
+
+            <!-- Total Orders -->
+            <div class="stat-card" style="border-left-color: #17a2b8;">
+                <div class="stat-value">{{ totalOrders }}</div>
+                <div class="stat-label">Total Orders</div>
+                <div class="trend-indicator" style="color: #a6a6a6;">
+                    Across all customers
+                </div>
+            </div>
+
+
+
+            <!-- Active Users -->
+            <div class="stat-card" style="border-left-color: #17a2b8;">
+                <div class="stat-value">{{ totalUsers }}</div>
+                <div class="stat-label">Active Users</div>
+                <div class="trend-indicator trend-up">
+                    <i class="bi bi-arrow-up"></i> {{ totalUsers > 0 ? 'New activity detected' : 'No recent activity' }}
+                </div>
+            </div>
+
+
+
+            <!-- Products -->
+            <div class="stat-card" style="border-left-color: #17a2b8;">
+                <div class="stat-value">{{ totalProducts }}</div>
+                <div class="stat-label">Products</div>
+                <div class="trend-indicator" style="color: rgb(166, 166, 166);">
+                    <!-- Optional: Show message if low stock logic is added -->
+                    Total products including local & API
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Data Cards -->
+        <div class="row text-white">
+            <div class="col-md-6 d-flex flex-column">
+                <div class="data-card h-100">
+                    <div class="data-card-header p-0">
+                        <h5 class="data-card-title">Popular Products</h5>
+                        <a routerLink="/admin/products" class="btn btn-light text-black view-all-link px-3 py-1">
+                            View All
+                        </a>
+                    </div>
+
+                    <div class="data-items">
+                        <div class="data-item" *ngFor="let product of popularProducts">
+                            <span class="text-truncate w-75">{{ product.title }}</span>
+                            <span class="badge-count">{{ product.salesCount }} sales</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6 d-flex flex-column">
+                <div class="data-card h-100">
+                    <div class="data-card-header p-0">
+                        <h5 class="data-card-title">Recent Activity</h5>
+                        <a routerLink="/admin/orders" class="btn btn-light text-black view-all-link px-3 py-1">View
+                            All</a>
+                    </div>
+
+                    <div class="activity-items">
+                        <div class="activity-item" *ngFor="let activity of recentActivities">
+                            <div class="activity-text">
+                                <strong>{{ activity.description }}</strong>
+                            </div>
+                            <div class="activity-time">{{ activity.timeAgo }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Charts Section -->
+        <div class="row mt-4">
+            <!-- User Growth Chart (Line) -->
+            <div class="col-md-4 mb-4">
+                <div class="data-card h-100">
+                    <div class="data-card-header">
+                        <h5 class="data-card-title">Daily User Growth</h5>
+                        <span class="badge bg-info">Current Month</span>
+                    </div>
+
+                    <div class="chart-container">
+                        <app-chart [chartId]="'customersChart'" [config]="customersChartConfig">
+                        </app-chart>
+                    </div>
+
+                    <div class="chart-footer  text-muted px-3 py-2 text-color">
+                        <small class="text-color">New users registrations by day</small>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 mb-4">
+                <div class="data-card h-100">
+                    <div class="data-card-header">
+                        <h5 class="data-card-title">Daily Orders</h5>
+                        <span class="badge bg-info">Current Month</span>
+                    </div>
+
+                    <div class="chart-container">
+                        <app-chart [chartId]="'ordersChart'" [config]="ordersChartConfig">
+                        </app-chart>
+                    </div>
+
+                    <div class="chart-footer  text-muted px-3 py-2">
+                        <small class="text-color">Completed orders by day</small>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 mb-4">
+                <div class="data-card h-100">
+                    <div class="data-card-header">
+                        <h5 class="data-card-title">Order Status Distribution</h5>
+                        <span class="badge bg-info">All Orders</span>
+                    </div>
+
+                    <div class="chart-container">
+                        <app-chart [chartId]="'orderStatusChart'" [config]="orderStatusChartConfig">
+                        </app-chart>
+                    </div>
+
+                    <div class="chart-footer text-muted px-3 py-2">
+                        <small class="text-color">Percentage of orders by status</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Add this as a third chart in your row -->
+
+
+        <!-- System Status -->
+        <div class="row my-4">
+            <div class="col-md-12">
+                <div class="alert alert-success">
+                    <i class="bi bi-check-circle-fill me-2"></i> All systems operational
+                </div>
+
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle-fill me-2"></i> Scheduled inventory update tonight at 2:00 AM
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

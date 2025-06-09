@@ -1,0 +1,20 @@
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 bg-light">
+    <div class="text-center p-5 bg-white rounded-3 shadow-sm con" style="max-width: 500px;">
+        
+        <div class="display-1 mb-4">⚠️</div>
+        <h1 class="display-1 fw-bold text-danger mb-3">{{ errorCode }}</h1>
+        <h2 class="h3 mb-3">{{ errorTitle }}</h2>
+        <p class="lead text-muted mb-4">{{ errorMessage }}</p>
+
+        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <button class="btn btn-primary btn-lg px-4 gap-3" (click)="goHome()">
+                <i class="bi bi-house-door me-2"></i>Go Home
+            </button>
+
+            <button class="btn btn-outline-secondary btn-lg px-4" (click)="reloadPage()">
+                <i class="bi bi-arrow-clockwise me-2"></i>Try Again
+            </button>
+
+        </div>
+    </div>
+</div>

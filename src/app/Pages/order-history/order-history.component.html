@@ -1,0 +1,217 @@
+<div class="container">
+  <div class="py-4 px-5 mt-5 mb-5 rounded-4 bg-white shadow-lg border border-2 border-primary-subtle">
+    <div class="d-flex align-items-center gap-3">
+      <div class="bg-primary-subtle p-3 rounded-circle shadow-sm">
+        <i class="bi bi-box-seam-fill text-primary fs-3"></i>
+      </div>
+      <h1 class="h3 mb-0 fw-bold text-dark">Order History</h1>
+    </div>
+  </div>
+
+  @if (orders.length === 0) {
+    <div class="text-center py-5">
+      <div class="mb-4">
+        <div class="bg-danger-subtle p-4 rounded-circle d-inline-flex shadow">
+          <i class="bi bi-cart-x fs-1 text-danger"></i>
+        </div>
+      </div>
+      <h4 class="mb-3 fw-semibold">No Orders Yet</h4>
+      <p class="text-secondary mb-4">Looks like you haven't placed any orders yet.</p>
+      <a [routerLink]="['/products']" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
+        <i class="bi bi-bag-plus me-2"></i> Start Shopping
+      </a>
+    </div>
+  }
+
+  <div class="d-flex flex-column gap-4 mb-4">
+    @for (order of orders; track $index) {
+      <div class="bg-white rounded-4 shadow border-hover overflow-hidden mb-4">
+        <!-- Order Header -->
+        <div class="d-flex justify-content-between align-items-center p-4 border-bottom" style="background-color:#a6caf8;">
+          <div>
+            <h5 class="mb-1 fw-bold text-dark"><i class="bi bi-receipt-cutoff"></i> {{order.id}}</h5>
+          </div>
+          <span class="badge rounded-pill px-3 py-2 text-uppercase shadow-sm" 
+                [ngClass]="{
+                  'bg-success-subtle text-success': order.status === Status.OrderPlaced || order.status === Status.Delivered,
+                  'bg-info-subtle text-info': order.status === Status.Shipped,
+                  'bg-warning-subtle text-warning': order.status === Status.OutForDelivery,
+                  'bg-danger-subtle text-danger': order.status === Status.Cancelled
+                }">
+            {{order.status}}
+          </span>
+        </div>
+
+        <div class="p-4">
+          <!-- Items -->
+          <div class="d-flex gap-4 overflow-auto pb-3">
+            @for (item of order.items; track $index) {
+            <div class="flex-shrink-0 bg-light-subtle rounded-3 p-3 shadow-sm item-card" style="width: 220px;">
+                <div class="bg-white rounded-3 d-flex align-items-center justify-content-center mb-3" style="width: 100%; height: 160px;">
+                  <img [src]="item.image" class="object-fit-contain" style="max-width: 90%; max-height: 90%;" [alt]="item.title">
+                </div>
+                <div>
+                  <h6 class="mb-1 fw-semibold text-truncate text-dark">{{item.title}}</h6>
+                  <p class="mb-1 text-muted small">{{item.category}}</p>
+                  <p class="mb-1 small">Qty: {{item.quantity}}</p>
+                  <p class="mb-0 fw-bold text-primary">${{item.price | number:'1.2-2'}}</p>
+                </div>
+              </div>
+            }
+          </div>
+
+          @if (order.status !== Status.Cancelled && order.status !== Status.Delivered) {
+            <div class="d-flex justify-content-end my-4">
+              <button class="btn btn-outline-danger rounded-pill px-4 shadow-sm" (click)="cancelOrder(order.id)">
+                <i class="bi bi-x-circle me-2"></i> Cancel Order
+              </button>
+            </div>
+          }
+
+          <!-- Enhanced Timeline with Progress Line -->
+          <div class="timeline-container mt-5 mb-4">
+            <div class="d-flex align-items-center justify-content-between position-relative">
+              <!-- Progress Line Background -->
+              <div class="progress-line-bg position-absolute w-100" style="height: 4px; background-color: #e9ecef;"></div>
+              
+              <!-- Progress Line Fill - Now stops exactly at current status -->
+              <div class="progress-line-fill position-absolute" 
+                   [style.width]="getProgressWidth(order.status)"
+                   style="height: 4px; background-color: #28a745; z-index: 1; transition: width 0.5s ease;">
+              </div>
+
+              <!-- Timeline Steps -->
+              <div class="d-flex w-100 justify-content-between position-relative" style="z-index: 2;">
+                <!-- Order Placed -->
+                <div class="d-flex flex-column align-items-center">
+                  <div class="timeline-dot d-flex align-items-center justify-content-center" 
+                       [ngClass]="{
+                         'bg-success': order.status === Status.OrderPlaced || 
+                                       order.status === Status.Shipped || 
+                                       order.status === Status.OutForDelivery || 
+                                       order.status === Status.Delivered,
+                         'bg-light border': order.status === Status.Cancelled
+                       }">
+                    <i class="bi bi-check-lg" 
+                       [ngClass]="{
+                         'text-white': order.status === Status.OrderPlaced || 
+                                       order.status === Status.Shipped || 
+                                       order.status === Status.OutForDelivery || 
+                                       order.status === Status.Delivered,
+                         'text-secondary': order.status === Status.Cancelled
+                       }"></i>
+                  </div>
+                  <span class="mt-2 small text-center" 
+                        [ngClass]="{
+                          'fw-medium': order.status === Status.OrderPlaced || 
+                                       order.status === Status.Shipped || 
+                                       order.status === Status.OutForDelivery || 
+                                       order.status === Status.Delivered,
+                          'text-secondary': order.status === Status.Cancelled
+                        }">
+                    Order Placed
+                  </span>
+                </div>
+
+                <!-- Shipped -->
+                <div class="d-flex flex-column align-items-center">
+                  <div class="timeline-dot d-flex align-items-center justify-content-center" 
+                       [ngClass]="{
+                         'bg-success': order.status === Status.Shipped || 
+                                    order.status === Status.OutForDelivery || 
+                                    order.status === Status.Delivered,
+                         'bg-light border': order.status === Status.OrderPlaced || 
+                                             order.status === Status.Cancelled
+                       }">
+                    <i class="bi bi-box" 
+                       [ngClass]="{
+                         'text-white': order.status === Status.Shipped || 
+                                       order.status === Status.OutForDelivery || 
+                                       order.status === Status.Delivered,
+                         'text-secondary': order.status === Status.OrderPlaced || 
+                                            order.status === Status.Cancelled
+                       }"></i>
+                  </div>
+                  <span class="mt-2 small text-center" 
+                        [ngClass]="{
+                          'fw-medium': order.status === Status.Shipped || 
+                                       order.status === Status.OutForDelivery || 
+                                       order.status === Status.Delivered,
+                          'text-secondary': order.status === Status.OrderPlaced || 
+                                            order.status === Status.Cancelled
+                        }">
+                    Shipped
+                  </span>
+                </div>
+
+                <!-- Out for Delivery -->
+                <div class="d-flex flex-column align-items-center">
+                  <div class="timeline-dot d-flex align-items-center justify-content-center" 
+                       [ngClass]="{
+                         'bg-success': order.status === Status.OutForDelivery || 
+                                       order.status === Status.Delivered,
+                         'bg-light border': order.status === Status.OrderPlaced || 
+                                             order.status === Status.Shipped || 
+                                             order.status === Status.Cancelled
+                       }">
+                    <i class="bi bi-truck" 
+                       [ngClass]="{
+                         'text-white': order.status === Status.OutForDelivery || 
+                                      order.status === Status.Delivered,
+                         'text-secondary': order.status === Status.OrderPlaced || 
+                                           order.status === Status.Shipped || 
+                                           order.status === Status.Cancelled
+                       }"></i>
+                  </div>
+                  <span class="mt-2 small text-center" 
+                        [ngClass]="{
+                          'fw-medium': order.status === Status.OutForDelivery || 
+                                       order.status === Status.Delivered,
+                          'text-secondary': order.status === Status.OrderPlaced || 
+                                           order.status === Status.Shipped || 
+                                           order.status === Status.Cancelled
+                        }">
+                    Out for Delivery
+                  </span>
+                </div>
+
+                <!-- Delivered -->
+                <div class="d-flex flex-column align-items-center">
+                  <div class="timeline-dot d-flex align-items-center justify-content-center" 
+                       [ngClass]="{
+                         'bg-success': order.status === Status.Delivered,
+                         'bg-light border': order.status !== Status.Delivered
+                       }">
+                    <i class="bi bi-house-check" 
+                       [ngClass]="{
+                         'text-white': order.status === Status.Delivered,
+                         'text-secondary': order.status !== Status.Delivered
+                       }"></i>
+                  </div>
+                  <span class="mt-2 small text-center" 
+                        [ngClass]="{
+                          'fw-medium': order.status === Status.Delivered,
+                          'text-secondary': order.status !== Status.Delivered
+                        }">
+                    Delivered
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total -->
+          <div class="d-flex justify-content-between align-items-center pt-3 mt-2 border-top">
+              <h6 class="mb-0 text-black fw-bold">
+                <i class="bi bi-calendar-minus-fill"></i>  {{order.date}}
+              </h6>
+              <p class="mb-0 fs-5 fw-bold text-dark d-flex align-items-center gap-2">
+                <span>Amount Paid:</span>
+                <span class="text-primary">${{order.totalAmount | number:'1.2-2'}}</span>
+              </p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

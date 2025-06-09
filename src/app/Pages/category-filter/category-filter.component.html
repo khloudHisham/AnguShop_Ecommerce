@@ -1,0 +1,68 @@
+
+    <!-- Filters Sidebar -->
+        <div class="filter-sidebar p-4 shadow-lg">
+            <div class="filter-group">
+                <h6 class="mb-3 fw-bold">Categories</h6>
+                @for (category of CategoryNames; track $index) {
+                    <div class="mb-2">
+                        <button class="category-btn" [class.active-category]="SelectedCategory === category" 
+                            (click)="SetSelectedCategory(category)"> {{ category }} 
+                        </button>
+                    </div>
+                }
+              </div>
+
+            <div class="filter-group">
+                <h6 class="mb-3 fw-bold">Price Range</h6>
+                <input type="range" class="form-range" min="0" max="1000" value="50" [(ngModel)]="SelectedPrice">
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted fw-bold">$0</span>
+                    <span class="text-black fw-bold">${{SelectedPrice}}</span>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h6 class="mb-3 fw-bold">Rating</h6>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="rating" id="allRating" [(ngModel)]="SelectedRating" [value]="0">
+                    <label class="form-check-label" for="allRating">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>                         
+                        <i class="bi bi-star-fill text-warning"></i> 
+                        All                        
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="rating" id="rating4" [(ngModel)]="SelectedRating" [value]="4">
+                    <label class="form-check-label" for="rating4">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                         4 & above
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="rating" id="rating3" [(ngModel)]="SelectedRating" [value]="3">
+                    <label class="form-check-label" for="rating3">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                         3 & above                    
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="rating" id="rating2" [(ngModel)]="SelectedRating" [value]="2">
+                    <label class="form-check-label" for="rating2">
+                            <i class="bi bi-star-fill text-warning"></i>
+                            <i class="bi bi-star-fill text-warning"></i>
+                             2 & above                    
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn btn-outline-primary w-100 mb-3" (click)="ApplyFilter()">Apply Filters</button>
+            <button class="btn btn-outline-primary w-100" (click)="ResetFilter()">Reset</button>
+        </div>

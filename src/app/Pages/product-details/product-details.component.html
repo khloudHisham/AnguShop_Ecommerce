@@ -1,0 +1,228 @@
+<div class="product-detail-container">
+    <div class="row g-4">
+        <!-- Product Images -->
+        <div class="col-lg-6">
+            <div class="image-wrapper">
+                <img [src]="UserDetailsData.image" class="main-image" alt="Product Image">
+                <div class="product-badge" *ngIf="UserDetailsData.price < 100">HOT</div>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-lg-6">
+            <div class="product-info">
+                <h1 class="product-title gradient-text">{{UserDetailsData.title}}</h1>
+
+                <div class="category-badge">
+                    {{UserDetailsData.category | uppercase}}
+                </div>
+
+                <div class="price-container">
+                    <span class="current-price">${{UserDetailsData.price}}</span>
+                    <span class="original-price"><s>${{UserDetailsData.price + 50}}</s></span>
+                    <span class="discount-tag">SAVE $50</span>
+                </div>
+
+                <div class="rating-container">
+                    <div class="star-rating">
+                        @for (star of getStars(UserDetailsData.rating?.rate); track $index) {
+                        @if (star === 'full') {
+                        <i class="fas fa-star star-icon"></i>
+                        } @else if (star === 'half') {
+                        <i class="fas fa-star-half-alt star-icon"></i>
+                        } @else {
+                        <i class="far fa-star star-icon"></i>
+                        }
+                        }
+                    </div>
+                    <span class="rating-text">
+                        {{UserDetailsData.rating?.rate}}/5
+                        <span class="stock-info">{{UserDetailsData.rating?.count}} in stock</span>
+                    </span>
+                </div>
+
+                <div class="description-box">
+                    <p class="description-text">{{UserDetailsData.description}}.</p>
+                </div>
+
+                <div class="quantity-selector">
+                    <label for="quantity">Quantity:</label>
+                    <div class="number-input">
+                        <button class="qty-btn" (click)="decrementQuantity()">-</button>
+                        <input type="number" id="quantity" [(ngModel)]="quantity" min="1"
+                            (change)="updateQuantity(quantity)">
+                        <button class="qty-btn" (click)="incrementQuantity()">+</button>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <!-- Cart Button -->
+                    <button class="btn btn-primary btn-lg mb-3 me-2" (click)="toggleCart()">
+                        <i class="bi bi-cart-plus me-2" *ngIf="!isInCart"></i>
+                        <i class="bi bi-cart-x me-2" *ngIf="isInCart"></i>
+                        <span *ngIf="!isInCart">Add to Cart</span>
+                        <span *ngIf="isInCart">Remove from Cart</span>
+                    </button>
+
+                    <!-- Wishlist Button -->
+                    <button class="btn btn-secondary btn-lg mb-3 mx-1" (click)="toggleWishlist()">
+                        <i class="bi bi-heart me-2" *ngIf="!isInWishlist"></i>
+                        <i class="bi bi-heart-fill me-2 text-danger" *ngIf="isInWishlist"></i>
+                        <span *ngIf="!isInWishlist">Add to Wish List</span>
+                        <span *ngIf="isInWishlist">Remove from Wishlist</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Section -->
+    <div class="tabs-section mt-5">
+        <ul class="nav nav-tabs" id="productTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="additional-info-tab" data-bs-toggle="tab"
+                    data-bs-target="#additional-info" type="button" role="tab" aria-controls="additional-info"
+                    aria-selected="true">Additional Info</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button"
+                    role="tab" aria-controls="reviews" aria-selected="false">Reviews ({{reviews.length}})</button>
+            </li>
+        </ul>
+
+        <div class="tab-content p-4 border border-top-0 rounded-bottom" id="productTabsContent">
+            <!-- Additional Info Tab -->
+            <div class="tab-pane fade show active" id="additional-info" role="tabpanel"
+                aria-labelledby="additional-info-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="mb-3">Product Specifications</h5>
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Brand</th>
+                                    <td>Premium Brand</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Material</th>
+                                    <td>High-quality materials</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Weight</th>
+                                    <td>0.5 kg</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Dimensions</th>
+                                    <td>10 x 10 x 5 cm</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="mb-3">Shipping & Returns</h5>
+                        <div class="shipping-info">
+                            <p><i class="bi bi-truck me-2"></i> Free shipping on all orders over $50</p>
+                            <p><i class="bi bi-arrow-left-right me-2"></i> 30-day return policy</p>
+                            <p><i class="bi bi-shield-check me-2"></i> 2-year warranty included</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Tab -->
+            <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                <div class="reviews-container">
+                    <!-- Existing Reviews -->
+                    <div class="mb-4">
+                        <h5>Customer Reviews</h5>
+                        <div *ngIf="reviews.length === 0" class="no-reviews">
+                            <p>No reviews yet. Be the first to review this product!</p>
+                        </div>
+                        <div *ngFor="let review of reviews" class="review-card mb-3 p-3 border rounded">
+                            <div class="d-flex justify-content-between mb-2">
+                                <div class="review-author fw-bold">{{review.author}}</div>
+                                <div class="review-date text-muted small">{{review.date | date:'mediumDate'}}</div>
+                            </div>
+                            <div class="review-rating mb-2">
+                                @for (star of getStars(review.rating); track $index) {
+                                @if (star === 'full') {
+                                <i class="fas fa-star text-warning"></i>
+                                } @else if (star === 'half') {
+                                <i class="fas fa-star-half-alt text-warning"></i>
+                                } @else {
+                                <i class="far fa-star text-warning"></i>
+                                }
+                                }
+                            </div>
+                            <div class="review-text">{{review.text}}</div>
+                        </div>
+                    </div>
+
+                    <!-- Add Review Form -->
+                    <div class="add-review-form">
+                        <h5>Write a Review</h5>
+                        <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
+                            <div class="mb-3">
+                                <label for="reviewAuthor" class="form-label">Your Name</label>
+                                <input type="text" class="form-control" id="reviewAuthor" [(ngModel)]="newReview.author"
+                                    name="author" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="reviewRating" class="form-label">Rating</label>
+                                <div class="rating-input">
+                                    @for (star of [1,2,3,4,5]; track star) {
+                                    <i class="far fa-star" [class.fas]="newReview.rating >= star"
+                                        [class.text-warning]="newReview.rating >= star" (click)="setRating(star)"></i>
+                                    }
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="reviewText" class="form-label">Your Review</label>
+                                <textarea class="form-control" id="reviewText" rows="4" [(ngModel)]="newReview.text"
+                                    name="text" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" [disabled]="!reviewForm.form.valid">
+                                Submit Review
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add this after your tabs section -->
+<div class="related-products-section">
+  <h3 class="mb-4" style="color: #4361EE;">Related Products</h3>
+  
+  <!-- Navigation buttons now at top right -->
+  <div class="swiper-navigation-container">
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+
+  <!-- Swiper container -->
+  <div class="swiper related-products-swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" *ngFor="let product of relatedProducts">
+        <app-one-product [oneProductData]="product"></app-one-product>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Success Toast -->
+<div *ngIf="addedToCart" class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success text-white">
+            <strong class="me-auto">Success</strong>
+            <button type="button" class="btn-close btn-close-white" (click)="addedToCart = false"
+                aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Product added to cart successfully!
+        </div>
+    </div>
+</div>

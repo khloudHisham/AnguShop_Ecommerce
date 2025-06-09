@@ -1,0 +1,197 @@
+<section id="checkout" class="container px-4 mb-5 rounded-3" style="background-color: #F8F9FA;">
+    <main>
+        <div class="py-1 text-center">
+            <img class="d-block rounded-5 rounded-top-circle mx-auto" src="Images/Angu_Shop1.png" alt="" width="200"
+                height="160">
+            <h1 class="h2 text-secondary">Checkout</h1>
+        </div>
+
+        <div class="row g-5">
+            <!-- Cart Summary -->
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <div class="cart-summary-card">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-primary">Your cart</span>
+                        <span class="badge bg-primary rounded-pill pulse">{{ cartItems.length }}</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        @for (item of cartItems; track item.id) {
+                        <li class="list-group-item d-flex justify-content-between lh-sm cart-item">
+                            <div>
+                                <h6 class="my-0">{{ item.title }}</h6>
+                                <small class="text-body-secondary">Qty: {{ item.quantity }}</small>
+                            </div>
+                            <span class="text-body-secondary">{{ (item.price * item.quantity).toFixed(2) }} EGP</span>
+                        </li>
+                        }
+
+                        @if (getPromoDiscount() > 0) {
+                        <li class="list-group-item d-flex justify-content-between bg-body-tertiary discount-item">
+                            <div class="text-success">
+                                <h6 class="my-0">Promo code</h6>
+                                <small>EXAMPLECODE</small>
+                            </div>
+                            <span class="text-success">−{{ getPromoDiscount().toFixed(2) }} EGP</span>
+                        </li>
+                        }
+
+                        <li class="list-group-item d-flex justify-content-between total-item">
+                            <span>Total (EGP)</span>
+                            <strong>{{ getFinalTotal().toFixed(2) }} EGP</strong>
+                        </li>
+                    </ul>
+
+                    <form class="card p-2 promo-card">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Promo code">
+                            <button type="submit" class="btn btn-secondary promo-btn">Redeem</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Checkout Form -->
+            <div class="col-md-7 col-lg-8">
+                <div class="checkout-form-card">
+                    <h4 class="mb-3">Billing address</h4>
+
+                    @if (paymentSuccess) {
+                    <div class="alert alert-success success-animation">
+                        <h4>Payment Successful!</h4>
+                        <p>Your order has been placed successfully. You will be redirected to the order confirmation
+                            page.</p>
+                    </div>
+                    } @else {
+                    <form [formGroup]="checkoutForm" (ngSubmit)="onFormSubmit()" class="needs-validation">
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="firstName" class="form-label">First name</label>
+                                <input type="text" class="form-control input-animate"
+                                    [ngClass]="{'is-invalid': getFieldError('firstName')}" id="firstName"
+                                    formControlName="firstName" required>
+                                <div class="invalid-feedback" *ngIf="getFieldError('firstName')">
+                                    {{ getFieldError('firstName') }}
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="lastName" class="form-label">Last name</label>
+                                <input type="text" class="form-control input-animate"
+                                    [ngClass]="{'is-invalid': getFieldError('lastName')}" id="lastName"
+                                    formControlName="lastName" required>
+                                <div class="invalid-feedback" *ngIf="getFieldError('lastName')">
+                                    {{ getFieldError('lastName') }}
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="username" class="form-label">Username</label>
+                                <div class="input-group has-validation">
+                                    <span class="input-group-text">"&#64;"</span>
+                                    <input type="text" class="form-control input-animate"
+                                        [ngClass]="{'is-invalid': getFieldError('username')}" id="username"
+                                        formControlName="username" required>
+                                    <div class="invalid-feedback" *ngIf="getFieldError('username')">
+                                        {{ getFieldError('username') }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control input-animate"
+                                    [ngClass]="{'is-invalid': getFieldError('email')}" id="email"
+                                    formControlName="email" placeholder="you@example.com" required>
+                                <div class="invalid-feedback" *ngIf="getFieldError('email')">
+                                    {{ getFieldError('email') }}
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control input-animate"
+                                    [ngClass]="{'is-invalid': getFieldError('address')}" id="address"
+                                    formControlName="address" placeholder="1234 Main St" required>
+                                <div class="invalid-feedback" *ngIf="getFieldError('address')">
+                                    {{ getFieldError('address') }}
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address2" class="form-label">Address 2 <span
+                                        class="text-body-secondary">(Optional)</span></label>
+                                <input type="text" class="form-control input-animate" id="address2"
+                                    formControlName="address2" placeholder="Apartment or suite">
+                            </div>
+
+                            <div class="col-md-5">
+                                <label for="country" class="form-label">Country</label>
+                                <select class="form-select input-animate"
+                                    [ngClass]="{'is-invalid': getFieldError('country')}" id="country"
+                                    formControlName="country" required>
+                                    <option value="EG">Egypt</option>
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                </select>
+                                <div class="invalid-feedback" *ngIf="getFieldError('country')">
+                                    {{ getFieldError('country') }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="state" class="form-label">State/Governorate</label>
+                                <select class="form-select input-animate"
+                                    [ngClass]="{'is-invalid': getFieldError('state')}" id="state"
+                                    formControlName="state" required>
+                                    <option value="">Choose...</option>
+                                    <option value="CAI">Cairo</option>
+                                    <option value="ALX">Alexandria</option>
+                                    <option value="GIZ">Giza</option>
+                                </select>
+                                <div class="invalid-feedback" *ngIf="getFieldError('state')">
+                                    {{ getFieldError('state') }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="zip" class="form-label">Postal Code</label>
+                                <input type="text" class="form-control input-animate"
+                                    [ngClass]="{'is-invalid': getFieldError('zip')}" id="zip" formControlName="zip"
+                                    required>
+                                <div class="invalid-feedback" *ngIf="getFieldError('zip')">
+                                    {{ getFieldError('zip') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h4 class="mb-3">Payment</h4>
+
+                        <div class="my-3">
+                            <div class="form-check">
+                                <input id="paypal" name="paymentMethod" type="radio" class="form-check-input"
+                                    value="paypal" formControlName="paymentMethod" checked required>
+                                <label class="form-check-label" for="paypal">PayPal</label>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <button class=" btn btn-primary btn-lg mb-4 submit-btn" type="submit"
+                            [disabled]="checkoutForm.invalid || isLoading">
+                            <span *ngIf="!isLoading">Continue to Payment</span>
+                            <span *ngIf="isLoading">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Processing...
+                            </span>
+                        </button>
+
+                        <div id="paypal-button-container" class="mt-4 w-100"></div>
+                    </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </main>
+</section>

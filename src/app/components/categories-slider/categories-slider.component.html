@@ -1,0 +1,34 @@
+<section class="categories container section">
+    <h3 class="section__title"><span>Popular</span> Categories</h3>
+    
+    <div class="categories__container swiper">
+        <div class="swiper-wrapper">
+            @for (category of categories; track category.slug) {
+<div class="swiper-slide">
+    <a [routerLink]="['/Categories']" class="category__item cat-border">
+        <img [src]="category.image" [alt]="category.name" class="category__img" />
+        <h3 class="category__title">{{category.name}}</h3>
+    </a>
+</div>
+            }
+            @empty {
+                <div class="loading-message">
+                    @if (isLoading) {
+                        <p>Loading categories...</p>
+                    } @else {
+                        <p>No categories found</p>
+                    }
+                </div>
+            }
+        </div>
+
+        @if (categories.length > 2) {
+            <div class="swiper-button-prev">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="swiper-button-next">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        }
+    </div>
+</section>

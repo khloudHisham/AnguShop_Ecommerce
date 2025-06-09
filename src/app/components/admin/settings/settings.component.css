@@ -1,0 +1,193 @@
+.profile-sidebar {
+    background: linear-gradient(135deg, #4158D0 0%, #C850C0 100%);
+}
+
+.nav-pills .nav-link {
+    color: #6c757d;
+    border-radius: 10px;
+    padding: 12px 20px;
+    margin: 4px 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: #f8f9fa;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #fff;
+    color: #4158D0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    background: linear-gradient(135deg, #4158D0 0%, #C850C0 100%);
+    height: 150px;
+    border-radius: 15px;
+}
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border: 4px solid #fff;
+    margin-top: -90px !important;
+    background-color: #fff;
+}
+
+.settings-card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.settings-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.form-switch .form-check-input {
+    width: 3em;
+    height: 1.5em;
+    margin-left: -3.5em;
+}
+
+.activity-item {
+    border-left: 2px solid #e9ecef;
+    padding-left: 20px;
+    position: relative;
+}
+
+.activity-item::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #4158D0;
+    position: absolute;
+    left: -7px;
+    top: 5px;
+}
+
+/* Dark Theme Styles */
+.profile-sidebar {
+    background: linear-gradient(135deg, #2a3a8f 0%, #8a2b8a 100%);
+}
+
+.nav-pills .nav-link {
+    color: #adb5bd;
+    border-radius: 10px;
+    padding: 12px 20px;
+    margin: 4px 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-pills .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.nav-pills .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-header {
+    background: linear-gradient(135deg, #2a3a8f 0%, #8a2b8a 100%);
+    height: 150px;
+    border-radius: 15px;
+}
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border: 4px solid #343a40;
+    margin-top: -60px;
+    background-color: #343a40;
+}
+
+.card {
+    border-radius: 15px;
+    border: 1px solid #495057;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.form-control {
+    background-color: #343a40;
+    color: #ffffff;
+    border-color: #495057;
+}
+
+.form-control:focus {
+    background-color: #343a40;
+    color: #ffffff;
+    border-color: #6c757d;
+    box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25);
+}
+
+.input-group-text {
+    background-color: #495057;
+    border-color: #495057;
+    color: #ffffff;
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #ffffff;
+}
+
+.activity-item {
+    border-left: 2px solid #495057;
+    padding-left: 20px;
+    position: relative;
+}
+
+.activity-item::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #6c757d;
+    position: absolute;
+    left: -7px;
+    top: 5px;
+}
+
+/* Dark modal styles */
+.modal-content {
+    background-color: #343a40;
+    border: 1px solid #495057;
+}
+
+.modal-header {
+    border-bottom: 1px solid #495057;
+}
+
+.modal-footer {
+    border-top: 1px solid #495057;
+}
+
+/* Dark form switches */
+.form-switch .form-check-input {
+    background-color: #495057;
+    border-color: #6c757d;
+}
+
+.form-switch .form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}

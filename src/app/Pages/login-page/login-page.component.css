@@ -1,0 +1,89 @@
+/* Main Styles */
+.bg-gradient-primary {
+  background: linear-gradient(45deg, #3a7bd5, #00d2ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-primary {
+  background: linear-gradient(45deg, #3a7bd5, #00d2ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Form Styles */
+.needs-validation .form-control {
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.needs-validation .form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.needs-validation .input-group-text {
+  background-color: #f8f9fa;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+}
+
+/* Password Toggle Button */
+.btn-outline-secondary {
+  border-color: #ced4da;
+  color: #6c757d;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #f8f9fa;
+  border-color: #ced4da;
+  color: #495057;
+}
+
+.bi-eye, .bi-eye-slash {
+  transition: all 0.2s ease;
+}
+
+/* Social Login Buttons */
+.btn-outline-primary.rounded-circle {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-primary.rounded-circle:hover {
+  background-color: rgba(13, 110, 253, 0.1);
+}
+
+/* Animations */
+.animate__fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+  .bg-primary {
+    padding: 2rem !important;
+  }
+  
+  .benefits-list {
+    margin-bottom: 2rem;
+  }
+}

@@ -1,0 +1,68 @@
+<!-- product-details-modal.component.html -->
+<div class="modal" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content text-white" style="background-color: #222e3b;">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-info-circle me-2"></i> Product Details
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeModal()"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <!-- Product Image -->
+          <div class="col-md-6">
+            <div class="mb-4">
+              <img [src]="product.image || 'assets/images/placeholder.jpg'" 
+                   class="img-fluid rounded" 
+                   [alt]="product.title">
+            </div>
+          </div>
+          
+          <!-- Product Details -->
+          <div class="col-md-6">
+            <h2 class="mb-3">{{ product.title }}</h2>
+            
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="badge bg-primary fs-6">{{ product.category }}</span>
+              <h4 class="text-success fw-bold">${{ product.price }}</h4>
+            </div>
+            
+            <div class="mb-4">
+              <h5 class="fw-bold">Description</h5>
+              <p>{{ product.description }}</p>
+            </div>
+            
+            <div class="row mb-3">
+              <div class="col-6">
+                <h5 class="fw-bold">Stock</h5>
+                <p>{{ product.rating?.count || 0 }} available</p>
+              </div>
+              <div class="col-6">
+                <h5 class="fw-bold">Rating</h5>
+                <div class="rating">
+                  <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                    <i class="fas fa-star" [ngClass]="{
+                      'text-warning': i < (product.rating?.rate || 0),
+                      'text-muted': i >= (product.rating?.rate || 0)
+                    }"></i>
+                  </ng-container>
+                  <span class="ms-2">({{ product.rating?.rate || 0 }}/5)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="onEdit()">
+          <i class="fas fa-edit"></i> Edit Product
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showModal"></div>

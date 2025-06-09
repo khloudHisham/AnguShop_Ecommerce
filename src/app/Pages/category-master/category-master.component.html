@@ -1,0 +1,46 @@
+<div class="container py-5">
+    <!-- Top Bar -->
+    <div class="row mb-4 " id="top">
+        <div class="col-12 d-flex justify-content-end ">
+            <div class="d-flex align-items-center px-3 py-1 rounded bg-light border bg-white rounded-4"
+                style="gap: 8px;">
+                <i class="bi bi-arrow-down-up text-dark"></i>
+                <span class="fw-semibold text-muted">Sort By</span>
+                <select
+                    class="form-select form-select-sm border-0 bg-light shadow-none custom-select-arrow bg-light-subtle "
+                    [(ngModel)]="selectedSort" (change)="SortProducts()" style="width: 170px; font-weight: 700;">
+                    <option value="priceAsc">Price: Low to High</option>
+                    <option value="priceDesc">Price: High to Low</option>
+                    <option value="titleAsc">Title: A–Z</option>
+                    <option value="titleDesc">Title: Z–A</option>
+                    <option value="rating">Rating: High to Low</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row g-4">
+        <div class="col-lg-3">
+            <app-category-filter></app-category-filter>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="row g-4">
+                @for (product of FilteredProducts; track $index)
+                {
+                <div class="col-md-4">
+                    <app-one-product [oneProductData]="product"></app-one-product>
+                </div>
+                }
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Scroll-to-top Button -->
+    <button class="scroll-top" (click)="scrollToTop()" style="border-radius: 50px; background-color: #49628D;">
+        <i class="fas fa-chevron-up"></i> <!-- Or use any Font Awesome icon -->
+    </button>
+</div>

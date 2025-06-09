@@ -1,0 +1,70 @@
+<div class="card product-card h-100">
+  <!-- Product Image with Action Buttons -->
+  <div class="card-img-top position-relative">
+    <img [src]="product.image || 'assets/images/placeholder.jpg'" class="img-fluid" [alt]="product.title">
+    <div class="card-actions position-absolute top-0 end-0 m-2 d-flex gap-1">
+      <button class="btn btn-sm btn-action btn-view text-white" title="View Details" (click)="onView()">
+        <i class="fas fa-eye"></i>
+      </button>
+
+      <button class="btn btn-sm btn-action btn-edit text-white" title="Edit" (click)="onEdit()">
+        <i class="fas fa-edit"></i>
+      </button>
+
+
+      <button class="btn btn-sm btn-action btn-delete text-white" title="Delete" (click)="onDelete()">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Product Details -->
+  <div class="card-body">
+    <h5 class="card-title text-truncate">{{ product.title }}</h5>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span class="badge bg-primary fs-6">{{ product.category }}</span>
+      <span class="text-success fw-bold">${{ product.price }}</span>
+    </div>
+
+    <p class="card-text text-muted small">
+      {{ product.description | slice: 0:100 }}...
+    </p>
+  </div>
+
+
+  <!-- Product Footer -->
+  <div class="card-footer bg-transparent">
+    <div class="d-flex justify-content-between align-items-center">
+      <small class="text-muted">Stock: {{ product.rating?.count || 10 }}</small>
+      <div class="rating" *ngIf="product.rating">
+
+        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+          <i class="fas fa-star" [ngClass]="{
+       'text-warning': i < (product.rating.rate),
+       'text-muted': i >= (product.rating.rate)
+        }"></i>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<app-product-details 
+  [product]="product" 
+  [showModal]="showDetailsModal"
+  (modalClosed)="closeDetailsModal()"
+  (editRequested)="handleEditRequest()">
+</app-product-details>
+
+
+<app-edit-product 
+  [product]="product" 
+  [categories]="categories"
+  [showModal]="showEditModal"
+  (modalClosed)="closeEditModal()"
+  (productUpdated)="handleProductUpdate($event)">
+</app-edit-product>

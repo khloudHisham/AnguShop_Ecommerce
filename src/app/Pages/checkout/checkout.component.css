@@ -1,0 +1,147 @@
+
+  /* Main Container */
+  .checkout-container {
+      background-color: #F8F9FA;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+  }
+
+  .checkout-container:hover {
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Logo Animation */
+  .logo-bounce {
+      animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+  }
+
+  /* Cart Summary Card */
+  .cart-summary-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+  }
+
+  .cart-summary-card:hover {
+      transform: translateY(-5px);
+  }
+
+  /* Cart Items */
+  .cart-item {
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+  }
+
+  .cart-item:hover {
+      background-color: #f8f9fa;
+      border-left: 3px solid #0d6efd;
+      transform: translateX(5px);
+  }
+
+  /* Discount Item */
+  .discount-item {
+      animation: pulse 2s infinite;
+  }
+
+  /* Total Item */
+  .total-item {
+      font-weight: bold;
+      background-color: rgba(13, 110, 253, 0.05);
+      border: 1px solid rgba(13, 110, 253, 0.2);
+  }
+
+  /* Promo Card */
+  .promo-card {
+      border: 1px dashed #0d6efd;
+      background-color: rgba(13, 110, 253, 0.03);
+  }
+
+  .promo-btn {
+      transition: all 0.3s ease;
+  }
+
+  .promo-btn:hover {
+      background-color: #5c636a;
+      transform: scale(1.02);
+  }
+
+  /* Checkout Form Card */
+  .checkout-form-card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Input Animations */
+  .input-animate {
+      transition: all 0.3s ease;
+      border: 1px solid #dee2e6;
+  }
+
+  .input-animate:focus {
+      border-color: #86b7fe;
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+      transform: translateY(-2px);
+  }
+
+  /* Submit Button */
+  .submit-btn {
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+      border: none;
+      position: relative;
+      overflow: hidden;
+  }
+
+  .submit-btn:hover:not([disabled]) {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+  }
+
+  .submit-btn:active:not([disabled]) {
+      transform: translateY(-1px);
+  }
+
+  .submit-btn:disabled {
+      opacity: 0.7;
+  }
+
+  /* Success Animation */
+  .success-animation {
+      animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Pulse Animation */
+  .pulse {
+      animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+      .checkout-container {
+          padding: 15px;
+      }
+      
+      .cart-summary-card, .checkout-form-card {
+          padding: 15px;
+      }
+  }

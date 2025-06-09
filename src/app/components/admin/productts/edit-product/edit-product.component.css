@@ -1,0 +1,62 @@
+/* edit-product-modal.component.css */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1050;
+  overflow-y: auto;
+}
+
+.modal.show {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+.modal-dialog {
+  margin: 2rem auto;
+  max-width: 95%;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 500px;
+    margin: 1.75rem auto;
+  }
+}
+
+.form-control.bg-dark:focus {
+  color: white;
+  border-color: #495057;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875em;
+}
+
+input {
+  color: black !important;
+  background-color: whitesmoke !important;
+}
+
+textarea {
+  color: black !important;
+  background-color: whitesmoke !important;
+}
+
+select {
+  color: black !important;
+  background-color: whitesmoke !important;
+}

@@ -1,0 +1,99 @@
+<!-- Loading Overlay -->
+<div *ngIf="isLoading" class="loading-overlay d-flex justify-content-center align-items-center">
+    <div class="text-center text-white">
+        <i class="fas fa-spinner fa-spin fa-3x mb-3"></i>
+        <div class="fw-bold">Loading...</div>
+    </div>
+</div>
+
+
+<div class="admin-container d-flex" *ngIf="!isLoading">
+    <!-- Sidebar -->
+    <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+        <div class="sidebar-header d-flex align-items-center justify-content-between p-3" style="border-radius: 0px !important;">
+            <div class="d-flex align-items-center admin-icon">
+                <i class="fa-solid fa-shop fs-5 px-1 text-white"></i>
+
+                <a routerLink="/admin/dashboard"
+                    class="mb-0 fs-5 px-2 admin-header fw-bold text-white text-decoration-none"
+                    *ngIf="!isSidebarCollapsed"> Admin
+                </a>
+            </div>
+
+            <button (click)="toggleSidebar()" class="toggle-btn btn btn-sm text-white">
+                <i class="bi bi-chevron-double-left" *ngIf="!isSidebarCollapsed"></i>
+                <i class="bi bi-chevron-double-right" *ngIf="isSidebarCollapsed"></i>
+            </button>
+        </div>
+
+
+        <nav class="sidebar-nav d-flex flex-column h-100">
+            <ul class="nav flex-column flex-grow-1">
+                <li class="nav-item" [class.active]="activeTab === 'dashboard'">
+                    <a class="nav-link d-flex align-items-center text-white" (click)="setActiveTab('dashboard')">
+                        <i class="fas fa-tachometer-alt me-3"></i>
+                        <span *ngIf="!isSidebarCollapsed">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" [class.active]="activeTab === 'users'">
+                    <a class="nav-link d-flex align-items-center text-white" (click)="setActiveTab('users')">
+                        <i class="fas fa-users me-3"></i>
+                        <span *ngIf="!isSidebarCollapsed">Users</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" [class.active]="activeTab === 'products'">
+                    <a class="nav-link d-flex align-items-center text-white" (click)="setActiveTab('products')">
+                        <i class="fas fa-boxes me-3"></i>
+                        <span *ngIf="!isSidebarCollapsed">Products</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" [class.active]="activeTab === 'orders'">
+                    <a class="nav-link d-flex align-items-center text-white" (click)="setActiveTab('orders')">
+                        <i class="fas fa-shopping-cart me-3"></i>
+                        <span *ngIf="!isSidebarCollapsed">Orders</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" [class.active]="activeTab === 'complaints'">
+                    <a class="nav-link d-flex align-items-center text-white" (click)="setActiveTab('complaints')">
+                        <i class="fa-solid fa-comments me-3"></i>
+                        <span *ngIf="!isSidebarCollapsed">Complaints</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" [class.active]="activeTab === 'settings'">
+                    <a class="nav-link d-flex align-items-center text-white" (click)="setActiveTab('settings')">
+                        <i class="fas fa-gear me-3"></i>
+                        <span *ngIf="!isSidebarCollapsed">Settings</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="logout-section mt-auto p-1 px-0 border-top">
+                <a class="nav-link d-flex align-items-center text-white logout" (click)="logout()">
+                    <i class="fas fa-sign-out-alt me-3"></i>
+                    <span *ngIf="!isSidebarCollapsed">Logout</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    
+    <!-- Main Content -->
+    <main class="main-content flex-grow-1" style="border-radius: 0px !important;" >
+        <div class="content-header p-3 bg-dark text-white" style="border-radius: 0px !important;">
+            <h1 class="h4 mb-0 top-header">
+                <i class="me-2" [ngClass]="getHeaderIcon()"></i>
+                {{ activeTab | titlecase }}
+            </h1>
+        </div>
+
+        <div class="content-body p-4 bg-light">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+</div>
+<!-- atef -->

@@ -1,0 +1,87 @@
+<!-- edit-product-modal.component.html -->
+<div class="modal" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'">
+    <div class="modal-dialog">
+        <div class="modal-content text-white" style="background-color: #222e3b;">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit me-2"></i> Edit Product
+                </h5>
+                <button type="button" class="btn-close btn-close-white" (click)="closeModal()"></button>
+            </div>
+
+            <div class="modal-body">
+                <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label class="fw-bold mb-2">Title</label>
+                        <input formControlName="title" class="form-control bg-dark text-white border-dark" />
+
+                        <div class="invalid-feedback d-block"
+                            *ngIf="editForm.get('title')?.invalid && editForm.get('title')?.touched">
+                            Title is required
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold mb-2">Price</label>
+                        <input formControlName="price" type="number" step="0.01"
+                            class="form-control bg-dark text-white border-dark" />
+
+                        <div class="invalid-feedback d-block"
+                            *ngIf="editForm.get('price')?.invalid && editForm.get('price')?.touched">
+                            Valid price is required
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold mb-2">Description</label>
+                        <textarea formControlName="description"
+                            class="form-control bg-dark text-white border-dark"></textarea>
+
+                        <div class="invalid-feedback d-block"
+                            *ngIf="editForm.get('description')?.invalid && editForm.get('description')?.touched">
+                            Description is required
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold mb-2">Category</label>
+                        <select formControlName="category" class="form-control bg-dark text-white border-dark">
+                            <option *ngFor="let item of categories" [value]="item">{{ item }}</option>
+                        </select>
+
+
+                        <div class="invalid-feedback d-block"
+                            *ngIf="editForm.get('category')?.invalid && editForm.get('category')?.touched">
+                            Category is required
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold mb-2">Image URL</label>
+                        <input formControlName="image" class="form-control bg-dark text-white border-dark" />
+                        <div class="invalid-feedback d-block"
+                            *ngIf="editForm.get('image')?.invalid && editForm.get('image')?.touched">
+                            Valid image URL is required
+                        </div>
+                    </div>
+
+             
+                    <!-- <div class="mb-3" *ngIf="product.rating"> -->
+                    <div class="mb-3">
+                        <label class="fw-bold mb-2">Stock Count</label>
+                        <input formControlName="ratingCount" type="number"
+                            class="form-control bg-dark text-white border-dark" />
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-success" [disabled]="editForm.invalid">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showModal"></div>

@@ -1,0 +1,207 @@
+<div class="container">
+  <h2 class="mb-4 text-white">Orders Management</h2>
+
+  <!-- Search Bar -->
+  <div class="d-flex justify-content-between mb-3">
+    <div class="input-group" style="width: 300px;">
+      <input type="text" id="searchInput" class="form-control" placeholder="Search orders..." [(ngModel)]="searchTerm"
+        (keyup)="onSearch()" />
+      <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Orders Table -->
+  <div *ngIf="!isLoading" class="table-container">
+    <div class="table-wrapper rounded-table table-shadow">
+      <table class="table table-striped table-hover">
+        <thead class="table-dark text-center">
+          <tr>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Total</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody class="text-center">
+          <tr *ngFor="let order of paginatedOrders">
+            <td>{{ order.id }}</td>
+
+            <td>{{ getUserProfile(order.userEmail)?.firstName }} {{ getUserProfile(order.userEmail)?.lastName }}</td>
+
+            <td>{{ order.date | date: 'shortDate' }}</td>
+            <td>
+              <span class="badge px-3 text-white py-2" [ngClass]="getStatusBadgeClass(order.status)">
+                {{ order.status }}
+              </span>
+            </td>
+            <td class="text-nowrap">${{ order.totalAmount.toFixed(2) }}</td>
+            <td>
+              <div class="btn-group" role="group">
+                <button class="btn btn-sm btn-dark me-2" (click)="showOrderDetails(order)" title="View order details">
+                  <i class="bi bi-eye me-2"></i> Details
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filteredOrders.length === 0">
+            <td colspan="7" class="text-center py-4">No orders found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="fixed-pagination container">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mb-0 gap-2">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" (click)="previousPage()">Previous</a>
+          </li>
+          <li class="page-item" *ngFor="let page of getPageNumbers()" [class.active]="page === currentPage">
+            <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" (click)="nextPage()">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Order Details Modal -->
+  <div class="custom-modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+    <div class="custom-modal" (click)="$event.stopPropagation()">
+      <div class="custom-modal-header">
+        <h2>Order #{{ selectedOrder?.id }}</h2>
+        <button class="close-btn" (click)="closeModal()">×</button>
+      </div>
+
+      <div class="custom-modal-body" *ngIf="selectedOrder">
+        <div class="order-details-grid">
+          <!-- Customer Info Card -->
+          <div class="detail-card customer-info-card">
+            <h3>
+              <i class="bi bi-person-circle me-2"></i>
+              Customer Information
+              <span *ngIf="userProfile" class="badge bg-info ms-2 p-1 px-2 fw-bold">From Profile</span>
+            </h3>
+
+            <div class="detail-row">
+              <span class="detail-label"><i class="bi bi-person me-2"></i>Full Name:</span>
+              <span class="detail-value">
+                {{ selectedOrder.userFirstName || userProfile?.firstName || 'Not specified' }}
+                {{ selectedOrder.userLastName || userProfile?.lastName || '' }}
+              </span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label"><i class="bi bi-envelope me-2"></i>Email:</span>
+              <span class="detail-value">
+                <a href="mailto:{{ selectedOrder.userEmail }}" class="text-primary">
+                  {{ selectedOrder.userEmail }}
+                </a>
+              </span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label"><i class="bi bi-telephone me-2"></i>Phone:</span>
+              <span class="detail-value">
+                {{ selectedOrder.userPhone || userProfile?.phone || 'Not provided' }}
+                <span *ngIf="selectedOrder.userPhone || userProfile?.phone">
+                  <a href="tel:{{ selectedOrder.userPhone || userProfile?.phone }}" class="ms-2 text-primary">
+                    <i class="bi bi-telephone-outbound"></i>
+                  </a>
+                </span>
+              </span>
+            </div>
+<!-- 
+            <div class="detail-row">
+              <span class="detail-label"><i class="bi bi-geo-alt me-2"></i>Shipping Address:</span>
+              <span class="detail-value">
+                <ng-container *ngIf="selectedOrder.shippingAddress || userProfile?.address; else noAddress">
+               {{ userProfile?.address?.city }}
+                </ng-container>
+                <ng-template #noAddress>Not provided</ng-template>
+              </span>
+            </div> -->
+
+
+
+            <div class="detail-row">
+              <span class="detail-label"><i class="bi bi-calendar me-2"></i>Order Date:</span>
+              <span class="detail-value">{{ selectedOrder.date | date: 'medium' }}</span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label"><i class="bi bi-info-circle me-2"></i>Status:</span>
+              <span class="detail-value">
+                <span class="badge text-white" [ngClass]="getStatusBadgeClass(selectedOrder.status)">
+                  {{ selectedOrder.status }}
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Order Summary Card -->
+          <div class="detail-card">
+            <h3><i class="bi bi-receipt me-2"></i>Order Summary</h3>
+            <div class="detail-row">
+              <span class="detail-label">Total Amount:</span>
+              <span class="detail-value">${{ selectedOrder.totalAmount.toFixed(2) }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Items Count:</span>
+              <span class="detail-value">{{ selectedOrder.items.length }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Payment Method:</span>
+              <span class="detail-value">Paypal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Items Section -->
+        <div class="order-items-section mt-4">
+          <h3><i class="bi bi-cart me-2"></i>Order Items ({{ displayItems.length }})</h3>
+          <div class="order-items-container">
+            <div class="order-item-header">
+              <div class="header-product">Product</div>
+              <div class="header-price">Price</div>
+              <div class="header-quantity">Qty</div>
+              <div class="header-total">Total</div>
+            </div>
+
+            <div class="order-item" *ngFor="let item of displayItems">
+              <div class="product-info">
+                <img [src]="item.image || 'assets/default-product.png'" [alt]="item.name || 'Product image'"
+                  class="product-image" onerror="this.src='assets/default-product.png'" />
+                <div class="product-details">
+                  <div class="product-name">{{ item.name || 'Unnamed Product' }}</div>
+                  <div class="product-sku" *ngIf="item.sku">SKU: {{ item.sku }}</div>
+                  <div class="product-category small text-muted" *ngIf="item.category">
+                    {{ item.category }}
+                  </div>
+                </div>
+              </div>
+              <div class="item-price">${{ item.price.toFixed(2) }}</div>
+              <div class="item-quantity">{{ item.quantity }}</div>
+              <div class="item-total">${{ (item.price * item.quantity).toFixed(2) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

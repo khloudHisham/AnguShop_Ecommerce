@@ -1,0 +1,42 @@
+<div class="hero-carousel">
+    <div class="carousel-container">
+        <!-- Fixed content container -->
+        <div class="fixed-content">
+            <div class="text-content">
+                <h1>{{ slides[currentSlide].title }}</h1>
+                <p> {{ slides[currentSlide].description }}</p>
+<div class="cta-buttons">
+    <a routerLink="/products" routerLinkActive="router-link-active" class="btn btn-primary py-2">Shop Now</a>
+    <a routerLink="/about" routerLinkActive="router-link-active" class="btn btn-secondary py-2">About Us</a>
+</div>
+            </div>
+
+            <!-- Changing visual content -->
+            <div class="visual-content">
+                
+                    
+                    <img class="product-showcase rounded rounded-4" src="{{ slides[currentSlide].image }}" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-arrows prev-arrow" (click)="prevSlide()">
+        <span class="arrow">‹</span>
+    </div>
+    <div class="nav-arrows next-arrow" (click)="nextSlide()">
+        <span class="arrow">›</span>
+    </div>
+
+    <div class="nav-dots">
+        <div *ngFor="let slide of slides; let i = index" class="dot" [class.active]="currentSlide === i"
+            (click)="goToSlide(i)"></div>
+    </div>
+
+    <!-- Floating decorative elements -->
+    <div class="floating-elements">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+    </div>
+</div>

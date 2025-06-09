@@ -1,0 +1,15 @@
+body.dark-mode {
+    background-color: #121212; /* or any dark color you like */
+    color: #f1f1f1; /* optional: makes text readable on dark */
+   
+  position: relative;
+}
+  
+  body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  .dul{
+    z-index: 99999 !important;
+  }

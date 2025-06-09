@@ -1,0 +1,84 @@
+<div class="container mt-5 mb-5">
+  <div class="d-flex justify-content-center row">
+    <div class="col-md-10" *ngIf="wishlistItems.length > 0; else emptyState">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">Your Wishlist</h3>
+        <button class="btn btn-danger btn-sm" (click)="clearWishlist()">
+          <i class="fa fa-trash me-1"></i> Clear All
+        </button>
+      </div>
+      
+      <div
+        class="row p-3 bg-light shadow-sm border rounded-4 mb-4 wishlist-card"
+        *ngFor="let product of wishlistItems"
+      >
+        <!-- Product Image with clickable link -->
+  <!-- Product Image with clickable link -->
+<div class="col-md-3 d-flex align-items-center">
+  <a (click)="viewDetails(product.id)" class="text-decoration-none cursor-pointer">
+    <img
+      [src]="product.image"
+      alt="Product Image"
+      class="img-fluid rounded-3 wishlist-img"
+    />
+  </a>
+</div>
+
+<!-- Product Info with clickable title -->
+<div class="col-md-6 mt-2">
+  <a (click)="viewDetails(product.id)" class="text-decoration-none text-dark cursor-pointer">
+    <h5 class="fw-bold">{{ product.title }}</h5>
+  </a>
+
+          <div class="d-flex align-items-center mb-2">
+            <div class="ratings me-2">
+              <i class="fa fa-star text-warning" *ngFor="let s of [1,2,3,4]"></i>
+              <i class="fa fa-star text-muted"></i>
+            </div>
+            <span class="text-muted small">{{ product.rating?.rate || 0 }} ({{ product.rating?.count || 0 }} reviews)</span>
+          </div>
+          <div class="mb-2">
+            <span class="badge bg-info text-dark">{{ product.category || 'Unknown Category' }}</span>
+          </div>
+          <p class="mb-0 text-muted" style="max-height: 3.5em; overflow: hidden;">
+            {{ product.description }}
+          </p>
+        </div>
+
+        <!-- Price + Actions -->
+        <div class="col-md-3 text-end d-flex flex-column justify-content-between">
+          <div>
+            <h4 class="text-success fw-bold">${{ product.price | number:'1.2-2' }}</h4>
+            <p class="text-muted small">Free shipping</p>
+          </div>
+          <div class="d-flex flex-column gap-2">
+            <a routerLink="/products/{{product.id}}" class="btn btn-sm btn-outline-primary w-100" type="button">
+              <i class="fa fa-eye me-1"></i> Details
+            </a>
+            <button
+              class="btn btn-sm btn-outline-danger w-100"
+              (click)="removeFromWishlist(product.id)"
+            >
+              <i class="fa fa-heart-broken me-1"></i> Remove
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <ng-template #emptyState>
+      <div class="col-md-8 text-center py-5 empty-wishlist">
+        <div class="empty-wishlist-icon mb-4">
+          <i class="fa fa-heart"></i>
+        </div>
+        <h3 class="mb-3">Your Wishlist is Empty</h3>
+        <p class="text-muted mb-4">You haven't added any items to your wishlist yet. Start exploring and add your favorite products!</p>
+<a class="btn btn-primary px-4 rounded-5 rounded" (click)="viewDetailsPage()">
+  <i class="fa fa-shopping-bag me-2"></i>Continue Shopping
+</a>
+
+      </div>
+    </ng-template>
+  </div>
+</div>

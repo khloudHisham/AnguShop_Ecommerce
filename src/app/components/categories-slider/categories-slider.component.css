@@ -1,0 +1,251 @@
+/*=============== CATEGORIES ===============*/
+.categories {
+    padding: 80px 0;
+    position: relative;
+    font-family: "Lato", sans-serif;
+}
+
+.categories .section__title {
+    text-align: center;
+    margin-bottom: 56px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #2d3748;
+    position: relative;
+    font-family: "League Spartan", sans-serif;
+}
+
+.categories .section__title span {
+    color: hsl(176, 88%, 27%);
+    position: relative;
+    display: inline-block;
+}
+
+.categories .section__title span::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, hsl(176, 88%, 27%), transparent);
+    border-radius: 3px;
+}
+
+/* Swiper container */
+.categories__container {
+    position: relative;
+    overflow: hidden;
+    padding: 32px 0;
+}
+
+/* Category items */
+.category__item {
+    display: block;
+    text-align: center;
+    padding: 24px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    color: hsl(154, 13%, 32%);
+    text-decoration: none;
+    border: 1px solid hsl(129, 36%, 85%);
+}
+
+.category__item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.category__img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.category__item:hover .category__img {
+    transform: scale(1.05);
+}
+
+.category__title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: hsl(154, 13%, 32%);
+    position: relative;
+    font-family: "League Spartan", sans-serif;
+}
+
+/* Swiper navigation buttons */
+.swiper-button-prev,
+.swiper-button-next {
+    width: 48px;
+    height: 48px;
+    background-color: #E9F6EB;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    color: rgb(8, 129, 121);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid hsl(129, 36%, 85%);
+    cursor: pointer;
+    z-index: 10;
+    font-size: 11px;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    background-color: hsl(176, 88%, 27%);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+    display: none;
+}
+
+.swiper-button-prev i,
+.swiper-button-next i {
+    font-size: 14px;
+}
+
+.swiper-button-prev {
+    left: -24px;
+}
+
+.swiper-button-next {
+    right: -24px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .category__img {
+        height: 140px;
+    }
+}
+
+@media (max-width: 992px) {
+    .categories {
+        padding: 64px 0;
+    }
+    
+    .category__img {
+        height: 120px;
+    }
+    
+    .section__title {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .category__img {
+        height: 100px;
+    }
+    
+    .section__title {
+        font-size: 18px;
+        margin-bottom: 40px;
+    }
+    
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media (max-width: 576px) {
+    .categories {
+        padding: 48px 0;
+    }
+    
+    .category__img {
+        height: 80px;
+    }
+    
+    .category__title {
+        font-size: 16px;
+    }
+    
+    .category__item {
+        padding: 16px;
+    }
+}
+
+/* Accessibility focus states */
+.swiper-button-prev:focus,
+.swiper-button-next:focus {
+    outline: 2px solid hsl(176, 88%, 27%);
+    outline-offset: 2px;
+}
+
+.category__item:focus-visible {
+    outline: 2px solid hsl(176, 88%, 27%);
+    outline-offset: 2px;
+}
+
+
+
+/*=============== SWIPER NAVIGATION BUTTONS - TOP POSITION ===============*/
+.categories__container {
+    position: relative;
+    padding-top: 60px; /* Add space for buttons at top */
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    position: absolute;
+    top: 1.87rem;
+    margin-right: 9px;
+    width: 30px;
+    height: 30px;
+    background-color: #E9F6EB;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    color: rgb(8, 129, 121);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid hsl(129, 36%, 85%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 11px;
+    z-index: 10;
+    transform: none; /* Remove vertical centering */
+}
+
+.swiper-button-prev {
+    right: 40px; /* Position prev button left of next button */
+    left: auto;
+}
+
+.swiper-button-next {
+    right: 0; /* Position next button at far right */
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    background-color: hsl(176, 88%, 27%);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Adjust section title margin */
+.categories .section__title {
+    margin-bottom: 20px; /* Reduce space below title */
+}
+
+

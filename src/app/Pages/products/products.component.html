@@ -1,0 +1,97 @@
+@if (loading) {
+<div class="text-center mt-5">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+} @else {
+<div class="container mt-5" id="top">
+  <div class="d-flex justify-content-end">
+    <div>
+      <div class="controls">
+        <div class="view-toggle">
+          <button class="active" id="grid-view" [class.active]="viewMode === 'grid'" (click)="viewMode = 'grid'">
+            <i class="fas fa-th"></i> Grid
+          </button>
+          <button id="list-view" [class.active]="viewMode === 'list'" (click)="viewMode = 'list'">
+            <i class="fas fa-list"></i> List
+          </button>
+        </div>
+        <div class="filter-sort">
+          <select id="category-filter" [(ngModel)]="selectedCategory">
+            <option value="">All Categories</option>
+            @for (cat of categories; track $index) {
+            <option [value]="cat">{{ cat }}</option>
+            }
+          </select>
+          <select id="sort-by" [(ngModel)]="selectedSort">
+            <option value="default" disabled hidden>Sort by</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Rating</option>
+            <option value="name">Name</option>
+          </select>
+          <input type="text" id="search" class="search-input" [(ngModel)]="searchText" (ngModelChange)="currentPage = 1"
+            placeholder="Search products...">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (paginatedProducts().length === 0) {
+  <div class="row mt-5">
+    <div class="col-12 text-center">
+      <div class="empty-state">
+        <i class="fas fa-search fa-3x text-muted mb-4"></i>
+        <h3 class="mb-3">No products found</h3>
+        <p class="text-muted">Try adjusting your search or filter criteria</p>
+      </div>
+    </div>
+  </div>
+  }
+
+  <div class="row mt-4">
+    @for (product of paginatedProducts(); track $index) {
+    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+      <app-one-product [oneProductData]="product" (productAdded)="showNotification()"></app-one-product>
+    </div>
+    }
+  </div>
+</div>
+
+<nav class="mb-4">
+  <ul class="pagination justify-content-center">
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <button class="page-link" (click)="changePage(currentPage - 1)"><span class="pagination-arrow"
+          aria-hidden="true">&laquo;</span></button>
+    </li>
+
+    @for (page of [].constructor(totalPages); track $index; let i = $index) {
+    <li class="page-item" [class.active]="currentPage === i + 1">
+      <button class="page-link" (click)="changePage(i + 1)">
+        {{ i + 1 }}
+      </button>
+    </li>
+    }
+
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <button class="page-link" (click)="changePage(currentPage + 1)">
+        <span class="pagination-arrow" aria-hidden="true">&raquo;</span>
+      </button>
+    </li>
+  </ul>
+</nav>
+
+<!-- Scroll-to-top Button -->
+<button class="scroll-top" (click)="scrollToTop()" style="border-radius: 50px; background-color: #49628D;">
+  <i class="fas fa-chevron-up"></i> <!-- Or use any Font Awesome icon -->
+</button>
+}
+
+@if (showAlert) {
+<div class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 m-3" role="alert"
+  style="z-index: 1050;">
+  Product added to cart!
+  <button type="button" class="btn-close" (click)="showAlert = false" aria-label="Close"></button>
+</div>
+}

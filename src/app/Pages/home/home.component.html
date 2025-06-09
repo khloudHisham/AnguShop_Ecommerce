@@ -1,0 +1,133 @@
+<section id="top" class="100vh">
+    <!-- Start Hero Area -->
+    <section class=" container ">
+        <app-hero></app-hero>
+    </section>
+
+
+
+    <section class="    container mt-5">
+        <div class=" shipping-info w-100">
+            <ul>
+                <!-- Free Shipping -->
+                <li>
+                    <div class="media-icon">
+                        <i class="fa-solid fa-truck"></i>
+                    </div>
+                    <div class="media-body">
+                        <h5>Free Shipping</h5>
+                        <span>On order over $99</span>
+                    </div>
+                </li>
+                <!-- Money Return -->
+                <li>
+                    <div class="media-icon">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div class="media-body">
+                        <h5>24/7 Support.</h5>
+                        <span>Live Chat Or Call.</span>
+                    </div>
+                </li>
+                <!-- Support 24/7 -->
+                <li>
+                    <div class="media-icon">
+                        <i class="fa-solid fa-credit-card"></i>
+                    </div>
+                    <div class="media-body">
+                        <h5>Online Payment.</h5>
+                        <span>Secure Payment Services.</span>
+                    </div>
+                </li>
+                <!-- Safe Payment -->
+                <li>
+                    <div class="media-icon">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </div>
+                    <div class="media-body">
+                        <h5>Easy Return.</h5>
+                        <span>Hassle Free Shopping.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <!-- End Hero Area -->
+    <app-categories-slider></app-categories-slider>
+
+
+    <!-- Featured Products Section -->
+    <section class="product-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="section__title"><span>Trending</span> Product</h3>
+                    <p class="section__subtitle">There are many variations of passages of Lorem Ipsum available, but the
+                        majority have
+                        suffered alteration in some form.</p>
+                </div>
+            </div>
+            <div class="section-header ">
+                <div class="filter-tabs">
+                    <button [class.active]="activeFilter === 'best-rating'" (click)="applyFilter('best-rating')">
+                        Best Rating
+                    </button>
+                    <button [class.active]="activeFilter === 'high-price'" (click)="applyFilter('high-price')">
+                        High Price
+                    </button>
+                    <button [class.active]="activeFilter === 'in-stock'" (click)="applyFilter('in-stock')">
+                        In Stock
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-grid">
+                @for (product of filteredProducts; track product.id) {
+                <app-one-product [oneProductData]="product"></app-one-product>
+                }
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Add this anywhere in your home component -->
+    <section class="deal-of-the-day-section container m-auto mt-5">
+        <div class="container">
+
+            <div class="section-header">
+                <h4 class="section__title"><span>Deal</span> of the Day</h4>
+                <div class="countdown-timer">
+                    <div class="timer-box">
+                        <span class="time-value">{{ hours }}</span>
+                        <span class="time-label">Hours</span>
+                    </div>
+                    <div class="timer-separator">:</div>
+                    <div class="timer-box">
+                        <span class="time-value">{{ minutes }}</span>
+                        <span class="time-label">Minutes</span>
+                    </div>
+                    <div class="timer-separator">:</div>
+                    <div class="timer-box">
+                        <span class="time-value">{{ seconds }}</span>
+                        <span class="time-label">Seconds</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deal-product">
+                <div class="deal-badge">-{{ discountPercentage }}%</div>
+                <div class="flashing-border"></div>
+                <app-one-product [oneProductData]="dailyDeal"></app-one-product>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================= scroll-top ========================= -->
+    <!-- Scroll-to-top Button -->
+    <button class="scroll-top" (click)="scrollToTop()" style="border-radius: 50px; background-color: #49628D;">
+        <i class="fas fa-chevron-up"></i> <!-- Or use any Font Awesome icon -->
+    </button>
+
+
+</section>

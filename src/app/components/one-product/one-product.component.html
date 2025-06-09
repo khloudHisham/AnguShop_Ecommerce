@@ -1,0 +1,62 @@
+
+<div class="product-card">
+  <div class="image-container">
+    <img src="{{ oneProductData.image }}" alt="Wireless Bluetooth Headphones" class="product-image">
+    <span class="product-badge bg-warning fw-bold text-dark">New</span>
+
+    <!-- Wishlist button with dynamic color -->
+    <button *ngIf="isAuthenticated" (click)="addToWishlist()" class="wishlist-btn">
+      <i class="fa-solid fa-heart" [class.text-danger]="isInWishlist()"></i>
+    </button>
+  </div>
+
+  <div class="product-content">
+    <div class="d-flex justify-content-end">
+      <del>{{ (oneProductData.price * 1.2) | currency: 'USD' }}</del>
+    </div>
+
+    <div class="product-header">
+      <h3 class="product-title text-truncate" style="max-width:70%;">{{ oneProductData.title }}</h3>
+      <div class="d-flex gap-1 align-items-center justify-content-center">
+        <span class="product-price">{{ oneProductData.price | currency: 'USD' }}</span>
+      </div>
+    </div>
+
+    <span class="product-category">{{ oneProductData.category }}</span>
+    <p class="product-description text-truncate">
+    {{oneProductData.description}}
+    </p>
+    <div class="product-rating">
+      <div class="product-rating mb-2 d-flex justify-content-center align-items-center">
+        @for (star of getStars(oneProductData.rating?.rate); track $index) {
+        @if (star === 'full') {
+        <i class="fas fa-star text-warning small"></i>
+        } @else if (star === 'half') {
+        <i class="fas fa-star-half-alt text-warning small"></i>
+        } @else {
+        <i class="far fa-star text-warning small"></i>
+        }
+        }
+        <strong class="text-muted ms-1">({{oneProductData.rating?.count || 0}})</strong>
+      </div>
+    </div>
+
+    <div class="product-footer">
+      <div class="product-actions">
+        <button class="btn btn-icon" routerLink="/products/{{oneProductData.id }}">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+        <button class="btn btn-icon" (click)="compareProduct()">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+        </button>
+      </div>
+
+      <!-- Add to cart button with dynamic state -->
+      <button *ngIf="isAuthenticated" class="btn add-to-cart-btn" [class.btn-primary]="!isInCart()"
+        [class.btn-success]="isInCart()" (click)="addToCart(oneProductData)">
+        <i class="fa-solid" [class.fa-cart-plus]="!isInCart()" [class.fa-check]="isInCart()"></i>
+        {{ isInCart() ? 'Added to Cart' : 'Add to Cart' }}
+      </button>
+    </div>
+  </div>
+</div>

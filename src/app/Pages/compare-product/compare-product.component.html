@@ -1,0 +1,95 @@
+<div class="compare-container">
+  <div class="compare-header">
+    <h2>Product Comparison</h2>
+    <div class="compare-actions">
+      <button *ngIf="canAddMoreProducts()" 
+              class="btn btn-primary" 
+              (click)="navigateToProducts()">
+        <i class="fas fa-plus"></i> Add Product to Compare
+      </button>
+      <button *ngIf="productsToCompare.length > 0" 
+              class="btn btn-danger ms-2" 
+              (click)="clearComparison()">
+        <i class="fas fa-trash"></i> Clear All
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="productsToCompare.length === 0" class="empty-comparison">
+    <div class="empty-state">
+      <i class="fas fa-balance-scale fa-3x"></i>
+      <h3>No products selected for comparison</h3>
+      <p>Add products to compare their features side by side</p>
+      <button class="btn btn-primary pb-0 rounded rounded-pill" (click)="navigateToProducts()">
+        <i class="fas fa-plus text-light"></i> Browse Products
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="productsToCompare.length > 0" class="comparison-table-container mb-4">
+    <div class="table-responsive">
+      <table class="table table-bordered comparison-table">
+        <thead>
+          <tr>
+            <th>Features</th>
+            <th *ngFor="let product of productsToCompare; let i = index" class="product-column">
+              <div class="product-header">
+                <button class="btn btn-sm btn-outline-danger remove-btn" 
+                        (click)="removeProduct(product.id)">
+                  <i class="fas fa-times"></i>
+                </button>
+                <img [src]="product.image" [alt]="product.title" class="product-image">
+                <h4 class="product-title">{{ product.title }}</h4>
+              </div>
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td>Price</td>
+            <td *ngFor="let product of productsToCompare">
+              {{ product.price | currency }}
+            </td>
+            <td *ngIf="canAddMoreProducts()"></td>
+          </tr>
+<!-- Update the rating row in your table -->
+<tr>
+  <td>Rating</td>
+  <td *ngFor="let product of productsToCompare">
+    <div class="rating">
+      <span class="stars">
+<span *ngFor="let star of [1,2,3,4,5]">
+          <i class="fas fa-star" 
+             [ngClass]="{
+               'filled': star <= (product.rating?.rate || 0), 
+               'empty': star > (product.rating?.rate || 0)
+             }"></i>
+        </span>
+      </span>
+      <span class="ms-2">{{ product.rating?.rate }} ({{ product.rating?.count }})</span>
+    </div>
+  </td>
+  <td *ngIf="canAddMoreProducts()"></td>
+</tr>
+          <tr>
+            <td>Category</td>
+            <td *ngFor="let product of productsToCompare">
+              {{ product.category }}
+            </td>
+            <td *ngIf="canAddMoreProducts()"></td>
+          </tr>
+          <tr>
+            <td>Description</td>
+            <td *ngFor="let product of productsToCompare">
+              <p class="description">{{ product.description }}</p>
+            </td>
+            <td *ngIf="canAddMoreProducts()"></td>
+          </tr>
+          <!-- Add more comparison rows as needed -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

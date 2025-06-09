@@ -1,0 +1,227 @@
+<div class="bg-all text-light">
+    <div class="container">
+        <div class="row">
+            <!-- Profile Header -->
+            <div class="col-12">
+                <div class="profile-header position-relative mb-4">
+                    <h1 class="py-3 text-center" style="font-family: serif; letter-spacing: 2px;">Information</h1>
+
+                    <div class="position-absolute top-0 end-0 p-3">
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div class="position-relative d-inline-block">
+                        <img [src]="profileImage" class="rounded-circle profile-pic" alt="Profile Picture">
+                        <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*"
+                            style="display: none;">
+
+                        <button class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle"
+                            (click)="triggerFileInput()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <h3 class="mt-3 mb-1 text-white">
+                        {{ profileForm.value.firstName }} {{ profileForm.value.lastName }}
+                    </h3>
+                    <p class="text-muted mb-0">Administrator</p>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-12 mb-5">
+                <div class="card border-dark bg-dark text-light">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <!-- Sidebar -->
+                            <div class="col-lg-3 border-end border-secondary">
+                                <div class="p-4">
+                                    <div class="nav flex-column nav-pills">
+                                        <a class="nav-link" [class.active]="activeTab === 'personal'"
+                                            (click)="switchTab('personal')">
+                                            <i class="fas fa-user me-2"></i>Personal Info
+                                        </a>
+                                        <a class="nav-link" [class.active]="activeTab === 'password'"
+                                            (click)="switchTab('password')">
+                                            <i class="fas fa-lock me-2"></i>Change Password
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Content Area -->
+                            <div class="col-lg-9">
+                                <div class="p-4">
+                                    <!-- Personal Information Tab -->
+                                    <div *ngIf="activeTab === 'personal'">
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <h5 class="mb-0 text-white">Personal Information</h5>
+                                            <button class="btn btn-outline-primary"
+                                                (click)="isEditing ? saveProfile() : toggleEdit()">
+                                                <i class="fas fa-{{ isEditing ? 'save' : 'edit' }} me-2"></i>
+                                                {{ isEditing ? 'Save Changes' : 'Edit Profile' }}
+                                            </button>
+                                        </div>
+
+                                        <form [formGroup]="profileForm">
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">First Name</label>
+                                                    <input type="text"
+                                                        class="form-control bg-dark text-light border-secondary"
+                                                        formControlName="firstName">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Last Name</label>
+                                                    <input type="text"
+                                                        class="form-control bg-dark text-light border-secondary"
+                                                        formControlName="lastName">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Email</label>
+                                                    <input type="email"
+                                                        class="form-control bg-dark text-light border-secondary"
+                                                        formControlName="email">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Phone</label>
+                                                    <input type="tel"
+                                                        class="form-control bg-dark text-light border-secondary"
+                                                        formControlName="phone">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Location</label>
+                                                    <input type="text"
+                                                        class="form-control bg-dark text-light border-secondary"
+                                                        formControlName="location">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Birthday</label>
+                                                    <input type="date"
+                                                        class="form-control bg-dark text-light border-secondary"
+                                                        formControlName="birthday">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Change Password Tab -->
+                                    <div *ngIf="activeTab === 'password'">
+                                        <h5 class="mb-4 text-white">Change Password</h5>
+
+                                        <div *ngIf="passwordChangeSuccess" class="alert alert-success">
+                                            Password changed successfully!
+                                        </div>
+
+                                        <div *ngIf="passwordChangeError" class="alert alert-danger">
+                                            {{ passwordChangeError }}
+                                        </div>
+
+                                        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+                                            <div class="row g-3">
+                                                <!-- Current Password Field -->
+                                                <div class="col-12">
+                                                    <label class="form-label">Current Password</label>
+                                                    <div class="input-group">
+                                                        <input [type]="showCurrentPassword ? 'text' : 'password'"
+                                                            class="form-control bg-dark text-light border-secondary"
+                                                            formControlName="currentPassword"
+                                                            [value]="showCurrentPassword ? currentPasswordValue : getMaskedPassword()"
+                                                            (input)="onCurrentPasswordInput($event)">
+                                                        <button class="btn btn-outline-secondary" type="button"
+                                                            (click)="togglePasswordVisibility('current')">
+                                                            <i
+                                                                class="fas fa-{{ showCurrentPassword ? 'eye-slash' : 'eye' }}"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div *ngIf="passwordForm.get('currentPassword')?.invalid && 
+                                                          passwordForm.get('currentPassword')?.touched"
+                                                        class="text-danger small">
+                                                        Current password is required
+                                                    </div>
+                                                </div>
+
+                                                <!-- New Password Field -->
+                                                <div class="col-12">
+                                                    <label class="form-label">New Password</label>
+                                                    <div class="input-group">
+                                                        <input [type]="showNewPassword ? 'text' : 'password'"
+                                                            class="form-control bg-dark text-light border-secondary"
+                                                            formControlName="newPassword">
+                                                        <button class="btn btn-outline-secondary" type="button"
+                                                            (click)="togglePasswordVisibility('new')">
+                                                            <i
+                                                                class="fas fa-{{ showNewPassword ? 'eye-slash' : 'eye' }}"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div *ngIf="passwordForm.get('newPassword')?.invalid && 
+                                                          passwordForm.get('newPassword')?.touched"
+                                                        class="text-danger small">
+                                                        Password must be at least 8 characters
+                                                    </div>
+                                                </div>
+
+                                                <!-- Confirm Password Field -->
+                                                <div class="col-12">
+                                                    <label class="form-label">Confirm New Password</label>
+                                                    <div class="input-group">
+                                                        <input [type]="showConfirmPassword ? 'text' : 'password'"
+                                                            class="form-control bg-dark text-light border-secondary"
+                                                            formControlName="confirmPassword">
+                                                        <button class="btn btn-outline-secondary" type="button"
+                                                            (click)="togglePasswordVisibility('confirm')">
+                                                            <i
+                                                                class="fas fa-{{ showConfirmPassword ? 'eye-slash' : 'eye' }}"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div *ngIf="passwordForm.errors?.['passwordMismatch'] && 
+                                                          passwordForm.get('confirmPassword')?.touched"
+                                                        class="text-danger small">
+                                                        Passwords do not match
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 mt-4 mb-2">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        [disabled]="passwordForm.invalid">
+                                                        Change Password
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Password Confirmation Modal -->
+<div class="modal fade show" [class.d-block]="showPasswordConfirmation" tabindex="-1"
+    style="background-color: rgba(0,0,0,0.7);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title">Confirm Your Identity</h5>
+                <button type="button" class="btn-close btn-close-white" (click)="cancelShowPassword()"></button>
+            </div>
+            <div class="modal-body">
+                <p>For security reasons, please re-enter your password to view it:</p>
+                <input type="password" class="form-control bg-dark text-light border-secondary"
+                    [(ngModel)]="confirmPasswordToShow" placeholder="Enter your current password"
+                    (keyup.enter)="confirmShowPassword()">
+                <div *ngIf="passwordChangeError" class="text-danger small mt-2">
+                    {{ passwordChangeError }}
+                </div>
+            </div>
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-secondary" (click)="cancelShowPassword()">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="confirmShowPassword()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>

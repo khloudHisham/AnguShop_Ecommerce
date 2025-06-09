@@ -1,0 +1,79 @@
+<!-- Loading Spinner -->
+<div *ngIf="loading" class="text-center mt-5">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!-- Product Management Content -->
+<div *ngIf="!loading" class="container">
+  <h2 class="mb-4 text-white">Products Management</h2>
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <button class="btn btn-light px-3" (click)="openAddProductModal()">
+    <i class="fa-solid fa-plus me-2"></i> Add New Product
+  </button>
+
+    <!-- Search Input -->
+    <div class="search-container d-flex" style="width: 27%;">
+      <label for="search">
+        <i class="fa-solid fa-magnifying-glass fs-4 px-2 py-2"
+          style="background-color: rgb(70, 70, 70); color: whitesmoke; border-top-left-radius: 10px; border-bottom-left-radius: 10px;"></i>
+      </label>
+
+      <input type="text" id="search" class="form-control w-100" placeholder="Search products..."
+        style="border-top-left-radius: 0; border-bottom-left-radius: 0;" [(ngModel)]="searchText"
+        (ngModelChange)="currentPage = 1" />
+    </div>
+  </div>
+
+
+  @if (paginatedProducts.length === 0) {
+  <div class="row mt-5 bg-white rounded-5">
+    <div class="col-12 text-center">
+      <div class="empty-state">
+        <i class="fas fa-search fa-3x bg-white mb-4"></i>
+        <h3 class="mb-3 bg-white">No products found</h3>
+        <strong class="text-black">Try adjusting your search or filter criteria</strong>
+      </div>
+    </div>
+  </div>
+  }
+  <!-- Product Cards -->
+  <div class="row">
+    <div class="col-md-6 col-lg-3 mb-4" *ngFor="let product of paginatedProducts">
+      <app-admin-one-product [product]="product" (delete)="onDeleteProduct($event)" (edit)="handleUpdate($event)"
+        ></app-admin-one-product>
+    </div>
+  </div>
+
+
+  <nav class="mt-4" *ngIf="totalPages > 1">
+    <ul class="pagination">
+      <!-- Previous Button -->
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(currentPage - 1)">Previous</a>
+      </li>
+
+      <!-- Page Numbers -->
+      <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index"
+        [class.active]="currentPage === i + 1">
+        <a class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+      </li>
+
+      <!-- Next Button -->
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Next</a>
+      </li>
+    </ul>
+  </nav>
+
+
+  <app-add-product 
+    *ngIf="showAddProductModal"
+    [showModal]="showAddProductModal"
+    (modalClosed)="closeAddProductModal()"
+    (productAdded)="handleProductAdded()">
+  </app-add-product>
+
+</div>
